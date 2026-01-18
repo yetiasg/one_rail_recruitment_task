@@ -1,0 +1,46 @@
+{
+  "name": "one_rail",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "private": true,
+  "keywords": [],
+  "author": "Mateusz Żupa",
+  "license": "UNLICENSED",
+  "packageManager": "pnpm@10.28.0",
+  "scripts": {
+    "build": "tsc",
+    "dev": "node dist/main.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "preinstall": "[[ $CI != true ]] && . ~/.nvm/nvm.sh && nvm use || true",
+    "prepare": "husky",
+    "compose": "docker compose -f docker-compose.yml up -d",
+    "compose-down": "docker compose -f docker-compose.yml down"
+  },
+  "dependencies": {
+    "chalk": "^5.6.2",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.3",
+    "express": "^5.2.1",
+    "joi": "^18.0.2"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.3.1",
+    "@commitlint/config-conventional": "^20.3.1",
+    "@types/express": "latest",
+    "@types/node": "^25.0.9",
+    "@typescript-eslint/parser": "^8.53.0",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "husky": "^9.1.7",
+    "jest": "^30.2.0",
+    "prettier": "^3.8.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.53.0"
+  }
+}
