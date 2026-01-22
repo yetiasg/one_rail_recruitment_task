@@ -7,7 +7,7 @@ import { Order } from "@modules/order/domain/entities/order.entity";
 export interface CreateOrderInput {
   userId: string;
   organizationId: string;
-  totalAmount: number;
+  totalAmount: string;
 }
 
 @Injectable()

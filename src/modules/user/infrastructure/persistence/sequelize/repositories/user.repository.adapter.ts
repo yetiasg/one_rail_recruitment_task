@@ -1,4 +1,3 @@
-import { Organization } from "@modules/organization/domain/entities/organization.entity";
 import { Injectable } from "@kernel/di/injectable.decorator";
 import {
   FindUsersRepoQuery,
@@ -22,7 +21,7 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
     return count > 0;
   }
 
-  async existsById(id: Organization["id"]): Promise<boolean> {
+  async existsById(id: User["id"]): Promise<boolean> {
     const count = await UserModel.count({ where: { id } });
     return count > 0;
   }
@@ -40,9 +39,9 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
     };
   }
 
-  async create(organization: Omit<User, "id">): Promise<User> {
-    const org = await UserModel.create(organization);
-    return UserPersistenceMapper.toDomain(org);
+  async create(data: Omit<User, "id">): Promise<User> {
+    const user = await UserModel.create(data);
+    return UserPersistenceMapper.toDomain(user);
   }
 
   async update(data: User): Promise<User> {
@@ -53,8 +52,8 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
     return UserPersistenceMapper.toDomain(user[0]);
   }
 
-  async delete(id: Organization["id"]): Promise<boolean> {
-    const org = await UserModel.destroy({ where: { id }, force: true });
-    return org > 0;
+  async delete(id: User["id"]): Promise<boolean> {
+    const user = await UserModel.destroy({ where: { id }, force: true });
+    return user > 0;
   }
 }
