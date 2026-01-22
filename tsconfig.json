@@ -19,7 +19,12 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": true,
     "noFallthroughCasesInSwitch": false,
-    "paths": {}
+    "paths": {
+      "@server/*": ["src/server/*"]
+    },
+    "plugins": [
+      { "transform": "tsc-alias" }
+    ]
   },
   "include": ["**/*"],
   "exclude": ["node_modules"]
