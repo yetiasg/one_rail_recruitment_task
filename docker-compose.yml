@@ -1,0 +1,17 @@
+services:
+  lipton-db:
+    image: mysql:8.1
+    ports:
+      - 3306:3306
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    volumes:
+      - .volumes/one-rail-db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: one_rail
+      MYSQL_DATABASE: one_rail
+      MYSQL_USER: one_rail
+      MYSQL_PASSWORD: one_rail
