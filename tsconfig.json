@@ -20,7 +20,10 @@
     "noImplicitAny": true,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@kernel/*": ["src/kernel/*"]
+      "@kernel/*": ["src/kernel/*"],
+      "@modules/*": ["src/modules/*"],
+      "@adapters/*": ["src/adapters/*"],
+      "@infrastructure/*": ["src/infrastructure/*"]
     },
     "plugins": [
       { "transform": "tsc-alias" }
