@@ -11,6 +11,10 @@ import {
 
 import { Router } from "express";
 import type { Express, Request, RequestHandler, Response } from "express";
+import { plainToInstance } from "class-transformer";
+import { validateSync } from "class-validator";
+import { BadRequestException } from "@kernel/http/http-exceptions";
+import { mapValidationErrors } from "@kernel/http/validation-error-mapper";
 
 function normalizePrefix(prefix: string): string {
   const _prefix = prefix.trim();
@@ -39,7 +43,7 @@ function buildArgs(
   );
   const args: unknown[] = new Array(maxIndex + 1).fill(undefined);
 
-  for (const { source, index, key } of defs) {
+  for (const { source, index, key, dto } of defs) {
     switch (source) {
       case "req":
         args[index] = req;
@@ -55,7 +59,27 @@ function buildArgs(
         break;
       case "body": {
         const body = req.body as Record<string, unknown> | undefined;
-        args[index] = key ? body?.[key] : body;
+        if (!dto) {
+          args[index] = body;
+          break;
+        }
+
+        const instance = plainToInstance(dto, body, {
+          enableImplicitConversion: false,
+        });
+
+        const errors = validateSync(instance, {
+          whitelist: true,
+          forbidNonWhitelisted: true,
+          forbidUnknownValues: true,
+        });
+
+        if (errors.length > 0)
+          throw new BadRequestException("Validation failed", {
+            errors: mapValidationErrors(errors),
+          });
+
+        args[index] = instance;
         break;
       }
     }
@@ -112,12 +136,18 @@ export function registerControllers(app: Express) {
         path,
         ...controllerMiddlewares,
         ...routeMiddlewares,
-        (req: Request, res: Response) => {
-          const args = buildArgs(req, res, paramDefinitions);
-          return (handler as (...rest: unknown[]) => unknown).apply(
-            controller,
-            args,
-          );
+        (req, res, next) => {
+          try {
+            const args = buildArgs(req, res, paramDefinitions);
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            const result = (handler as (...rest: unknown[]) => unknown).apply(
+              controller,
+              args,
+            );
+            Promise.resolve(result).catch(next);
+          } catch (err) {
+            next(err);
+          }
         },
       );
     }

@@ -7,11 +7,13 @@ export interface RouteDefinition {
 }
 
 export type ControllerConstructor = new (...args: never[]) => object;
+export type Constructor<T> = new (...args: unknown[]) => T;
 
 export type ParamSource = "req" | "res" | "param" | "query" | "body";
 
 export interface ParamDefinition {
   index: number;
   source: ParamSource;
+  dto?: Constructor<object>;
   key?: string; // param/query
 }
