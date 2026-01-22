@@ -1,6 +1,10 @@
 import "reflect-metadata";
 import { PARAMS_METADATA_KEY } from "@kernel/metadata/metadata.keys";
-import { ParamDefinition, ParamSource } from "@kernel/runtime/types";
+import {
+  Constructor,
+  ParamDefinition,
+  ParamSource,
+} from "@kernel/runtime/types";
 
 function defineParam(
   target: object,
@@ -8,6 +12,7 @@ function defineParam(
   parameterIndex: number,
   source: ParamSource,
   key?: string,
+  dto?: Constructor<object>,
 ): void {
   const existing = Reflect.getMetadata(
     PARAMS_METADATA_KEY,
@@ -16,7 +21,7 @@ function defineParam(
   ) as ParamDefinition[] | undefined;
   const params: ParamDefinition[] = existing ?? [];
 
-  params.push({ index: parameterIndex, source, key });
+  params.push({ index: parameterIndex, source, key, dto });
   params.sort((a, b) => a.index - b.index);
 
   Reflect.defineMetadata(PARAMS_METADATA_KEY, params, target, methodName);
@@ -62,12 +67,14 @@ export function Query(name: string) {
   };
 }
 
-export function Body() {
+export function Body<T extends object>(
+  dto: Constructor<T>,
+): ParameterDecorator {
   return function (
     target: object,
     propertyKey: string | symbol,
     parameterIndex: number,
   ): void {
-    defineParam(target, propertyKey, parameterIndex, "body");
+    defineParam(target, propertyKey, parameterIndex, "body", undefined, dto);
   };
 }
