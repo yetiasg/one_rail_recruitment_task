@@ -1,5 +1,5 @@
 services:
-  lipton-db:
+  db:
     image: mysql:8.1
     ports:
       - 3306:3306
@@ -11,7 +11,7 @@ services:
     volumes:
       - .volumes/one-rail-db:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: one_rail
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: one_rail
-      MYSQL_USER: one_rail
-      MYSQL_PASSWORD: one_rail
+      MYSQL_USER: app
+      MYSQL_PASSWORD: app
