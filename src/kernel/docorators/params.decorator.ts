@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import { PARAMS_METADATA_KEY } from "@server/metadata.keys";
-import { ParamDefinition, ParamSource } from "@server/types";
+import { PARAMS_METADATA_KEY } from "@kernel/metadata/metadata.keys";
+import { ParamDefinition, ParamSource } from "@kernel/runtime/types";
 
 function defineParam(
   target: object,

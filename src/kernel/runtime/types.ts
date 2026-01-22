@@ -6,11 +6,7 @@ export interface RouteDefinition {
   handlerName: string;
 }
 
-export type ControllerConstructor = new () => object;
-
-export interface Constructor {
-  new (...args: never[]): object;
-}
+export type ControllerConstructor = new (...args: never[]) => object;
 
 export type ParamSource = "req" | "res" | "param" | "query" | "body";
 

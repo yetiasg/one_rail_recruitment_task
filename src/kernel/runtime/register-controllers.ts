@@ -1,15 +1,16 @@
 import "reflect-metadata";
-import { Router } from "express";
-import type { Express, Request, RequestHandler, Response } from "express";
-import { controllers } from "./controller-registry";
-import { ParamDefinition, RouteDefinition } from "./types";
+import { appContainer } from "@kernel/di/app-container";
+import { controllers } from "@kernel/registry/controller-registry";
+import { ParamDefinition, RouteDefinition } from "@kernel/runtime/types";
 import {
   CONTROLLER_PREFIX,
   MIDDLEWARE_METADATA_KEY,
   PARAMS_METADATA_KEY,
   ROUTES_METADATA_KEY,
-} from "./metadata.keys";
-import { appContainer } from "./di/app-container";
+} from "@kernel/metadata/metadata.keys";
+
+import { Router } from "express";
+import type { Express, Request, RequestHandler, Response } from "express";
 
 function normalizePrefix(prefix: string): string {
   const _prefix = prefix.trim();

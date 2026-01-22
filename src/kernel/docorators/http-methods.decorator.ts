@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import { ROUTES_METADATA_KEY } from "@server/metadata.keys";
-import { HttpMethod, RouteDefinition } from "@server/types";
+import { ROUTES_METADATA_KEY } from "@kernel/metadata/metadata.keys";
+import { HttpMethod, RouteDefinition } from "@kernel/runtime/types";
 
 function createMethodDecorator(method: HttpMethod, path: string = "") {
   return function (target: object, propertyKey: string): void {

@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { MIDDLEWARE_METADATA_KEY } from "@server/metadata.keys";
+import { MIDDLEWARE_METADATA_KEY } from "@kernel/metadata/metadata.keys";
 import { RequestHandler } from "express";
 
 export function Use(...middlewares: RequestHandler[]) {

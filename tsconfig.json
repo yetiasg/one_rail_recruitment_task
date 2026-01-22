@@ -20,7 +20,7 @@
     "noImplicitAny": true,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@server/*": ["src/server/*"]
+      "@kernel/*": ["src/kernel/*"]
     },
     "plugins": [
       { "transform": "tsc-alias" }
