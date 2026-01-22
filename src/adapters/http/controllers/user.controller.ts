@@ -13,6 +13,7 @@ import { CreateUserUseCase } from "@modules/user/application/use-cases/create-us
 import { UpdateUserUseCase } from "@modules/user/application/use-cases/update-user.use-case";
 import { FindUserByIdUseCase } from "@modules/user/application/use-cases/find-user-by-id.use-case";
 import { DeleteUserUseCase } from "@modules/user/application/use-cases/delete-user.use-case";
+import { UpdateUserRequestDto } from "../dto/user/requests/update-user.request.dto";
 
 @Controller("users")
 export class UserController {
@@ -63,7 +64,7 @@ export class UserController {
   @Put(":userId")
   async updateUser(
     @Param("userId") userId: string,
-    @Body(CreateUserRequestDto) data: CreateUserRequestDto,
+    @Body(UpdateUserRequestDto) data: UpdateUserRequestDto,
     @Res() res: Response,
   ): Promise<void> {
     const user = await this.updateUserUseCase.execute(userId, data);
