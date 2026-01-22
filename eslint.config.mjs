@@ -11,6 +11,8 @@ export default defineConfig(
       "dist/**",
       "node_modules/**",
       "commitlint.config.mjs",
+      "migrations",
+      "models",
     ],
   },
   {
