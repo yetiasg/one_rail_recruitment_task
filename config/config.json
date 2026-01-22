@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "root",
+    "password": "one_rail",
+    "database": "one_rail",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
