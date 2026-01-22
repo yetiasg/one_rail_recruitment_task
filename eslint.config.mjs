@@ -1,4 +1,3 @@
-// @ts-check
 import eslint from "@eslint/js";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import globals from "globals";
@@ -7,7 +6,15 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig(
   {
-    ignores: ["eslint.config.mjs"],
+    ignores: [
+      "eslint.config.mjs",
+      "dist/**",
+      "node_modules/**",
+      "commitlint.config.mjs",
+    ],
+  },
+  {
+    files: ["src/**/*.ts"],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
@@ -31,5 +38,5 @@ export default defineConfig(
       "@typescript-eslint/no-floating-promises": "warn",
       "@typescript-eslint/no-unsafe-argument": "warn",
     },
-  }
+  },
 );
