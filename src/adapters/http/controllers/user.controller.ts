@@ -8,12 +8,12 @@ import {
 } from "@kernel/docorators/http-methods.decorator";
 import { Body, Param, Query, Res } from "@kernel/docorators/params.decorator";
 import { FindUsersUseCase } from "@modules/user/application/use-cases/find-users/find-users.use-case";
-import { CreateUserRequestDto } from "@adapters/http/dto/user/requests/create-user.request.dto";
+import { CreateUserRequestDto } from "@adapters/http/dto/user/create-user.request.dto";
 import { CreateUserUseCase } from "@modules/user/application/use-cases/create-user.use-case";
 import { UpdateUserUseCase } from "@modules/user/application/use-cases/update-user.use-case";
 import { FindUserByIdUseCase } from "@modules/user/application/use-cases/find-user-by-id.use-case";
 import { DeleteUserUseCase } from "@modules/user/application/use-cases/delete-user.use-case";
-import { UpdateUserRequestDto } from "../dto/user/requests/update-user.request.dto";
+import { UpdateUserRequestDto } from "../dto/user/update-user.request.dto";
 
 @Controller("users")
 export class UserController {
