@@ -11,11 +11,13 @@
   "scripts": {
     "build": "eslint && tsc && tsc-alias",
     "dev": "concurrently \"npm run watch:ts\" \"npm run watch:node\"",
+    "start:prod": "node dist/main.js",
     "watch:ts": "tsc --watch",
     "watch:node": "nodemon --watch dist --ext js --exec \"tsc-alias && node dist/main.js\"",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:unit": "jest --runTestsByPath test/unit",
+    "test:coverage": "jest --coverage",
     "lint": "eslint",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "preinstall": "[[ $CI != true ]] && . ~/.nvm/nvm.sh && nvm use || true",
@@ -23,7 +25,8 @@
     "compose": "docker compose -f docker-compose.yml up -d",
     "compose-down": "docker compose -f docker-compose.yml down",
     "migrate:up": "sequelize-cli db:migrate",
-    "migrate:undo": "sequelize-cli db:migrate:undo"
+    "migrate:undo": "sequelize-cli db:migrate:undo",
+    "docker-build": "./build.sh"
   },
   "dependencies": {
     "chalk": "^5.6.2",
@@ -41,6 +44,7 @@
     "@commitlint/config-conventional": "^20.3.1",
     "@eslint/js": "^9.39.2",
     "@types/express": "latest",
+    "@types/jest": "^30.0.0",
     "@types/node": "^25.0.9",
     "@types/sequelize": "^6.12.0",
     "@typescript-eslint/parser": "^8.53.0",
@@ -54,6 +58,7 @@
     "nodemon": "^3.1.11",
     "prettier": "^3.8.0",
     "sequelize-cli": "^6.6.5",
+    "ts-jest": "^29.4.6",
     "tsc-alias": "^1.8.16",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.3",
