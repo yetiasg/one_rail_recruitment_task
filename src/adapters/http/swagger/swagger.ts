@@ -10,22 +10,10 @@ export function mountSwagger(app: Express) {
         title: "API Docs",
         version: "1.0.0",
       },
-      servers: [{ url: "http://localhost:3000" }],
     },
-    // 🔴 NAJWAŻNIEJSZE
-    apis: [
-      // jeśli uruchamiasz TS bez buildu
-      "./src/**/*.ts",
-
-      // jeśli uruchamiasz po buildzie
-      "./dist/**/*.js",
-    ],
+    apis: ["./src/**/*.ts", "./dist/**/*.js"],
   });
-
-  console.log("Swagger paths:", Object.keys(spec.paths ?? {}));
 
   app.get("/swagger/openapi.json", (_req, res) => res.json(spec));
   app.use("/swagger", swaggerUi.serve, swaggerUi.setup(spec, {}));
-
-  console.log(`Swagger docs awailable on http://localhost:3000/swagger`);
 }
