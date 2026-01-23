@@ -14,7 +14,7 @@ export interface FindOrganizationsQuery {
 }
 
 @Injectable()
-export class FindOrganizationsUseCase {
+export class FindOrganizationsPagedUseCase {
   constructor(private readonly orgRepo: OrganizationRepositoryPort) {}
 
   async execute(
