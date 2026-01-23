@@ -1,22 +1,13 @@
 import { Organization } from "@modules/organization/domain/entities/organization.entity";
-import { OrderBy } from "@shared/application/pagination/pagination.type";
-
-export interface FindOrganizationsRepoQuery {
-  offset: number;
-  limit: number;
-  orderBy: OrderBy<"name">;
-}
-
-export interface FindOrganizationsRepoResult {
-  rows: Organization[];
-  total: number;
-}
+import {
+  FindPagedRepoQuery,
+  FindPagedRepoResult,
+} from "@shared/application/pagination/pagination.type";
 
 export abstract class OrganizationRepositoryPort {
-  abstract findPaged(
-    query: FindOrganizationsRepoQuery,
-  ): Promise<FindOrganizationsRepoResult>;
-
+  abstract findPaged<F extends string>(
+    query: FindPagedRepoQuery<F>,
+  ): Promise<FindPagedRepoResult<Organization>>;
   abstract existsById(id: Organization["id"]): Promise<boolean>;
   abstract findById(id: Organization["id"]): Promise<Organization | null>;
   abstract create(organization: Organization): Promise<Organization>;

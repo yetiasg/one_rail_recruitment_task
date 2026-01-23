@@ -17,7 +17,7 @@ export class FindOrdersPagedUseCase {
   async execute(input: FindOrdersQuery): Promise<PagedResult<Order>> {
     const page = clampInt(input.page ?? 1, 1, 1_000_000);
     const pageSize = clampInt(input.pageSize ?? 20, 1, 200);
-    const sortBy = input.field ?? "orderDate";
+    const sortBy: FindOrdersQuery["field"] = input.field ?? "orderDate";
     const sortDir = input.direction ?? "asc";
 
     if (sortBy !== "orderDate")

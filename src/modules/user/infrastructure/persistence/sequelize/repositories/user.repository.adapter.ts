@@ -1,12 +1,12 @@
 import { Injectable } from "@kernel/di/injectable.decorator";
-import {
-  FindUsersRepoQuery,
-  FindUsersRepoResult,
-  UserRepositoryPort,
-} from "@modules/user/application/ports/user-repository.port";
+import { UserRepositoryPort } from "@modules/user/application/ports/user-repository.port";
 import { UserModel } from "../models/user.model";
 import { User } from "@modules/user/domain/entities/user.entity";
 import { UserPersistenceMapper } from "../mappers/user.persistence-mapper";
+import {
+  FindPagedRepoQuery,
+  FindPagedRepoResult,
+} from "@shared/application/pagination/pagination.type";
 
 @Injectable()
 export class UserRepositoryAdapter implements UserRepositoryPort {
@@ -26,7 +26,9 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
     return count > 0;
   }
 
-  async findPaged(query: FindUsersRepoQuery): Promise<FindUsersRepoResult> {
+  async findPaged<F extends string>(
+    query: FindPagedRepoQuery<F>,
+  ): Promise<FindPagedRepoResult<User>> {
     const { rows, count } = await UserModel.findAndCountAll({
       offset: query.offset,
       limit: query.limit,

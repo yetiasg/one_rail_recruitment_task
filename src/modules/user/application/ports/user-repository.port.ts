@@ -7,8 +7,8 @@ import {
 export abstract class UserRepositoryPort {
   abstract existsById(id: User["id"]): Promise<boolean>;
   abstract existByEmail(email: User["email"]): Promise<boolean>;
-  abstract findPaged(
-    query: FindPagedRepoQuery<"email">,
+  abstract findPaged<F extends string>(
+    query: FindPagedRepoQuery<F>,
   ): Promise<FindPagedRepoResult<User>>;
   abstract findById(id: User["id"]): Promise<User | null>;
   abstract create(user: User): Promise<User>;

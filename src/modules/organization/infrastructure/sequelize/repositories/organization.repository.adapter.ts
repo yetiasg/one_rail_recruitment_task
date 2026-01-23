@@ -1,12 +1,12 @@
-import {
-  FindOrganizationsRepoQuery,
-  FindOrganizationsRepoResult,
-  OrganizationRepositoryPort,
-} from "@modules/organization/application/ports/organization-repository.port";
+import { OrganizationRepositoryPort } from "@modules/organization/application/ports/organization-repository.port";
 import { Organization } from "@modules/organization/domain/entities/organization.entity";
 import { OrganizationModel } from "../models/organization.model";
 import { Injectable } from "@kernel/di/injectable.decorator";
 import { OrganizationPersistenceMapper } from "../mappers/organization.persistence-mapper";
+import {
+  FindPagedRepoQuery,
+  FindPagedRepoResult,
+} from "@shared/application/pagination/pagination.type";
 
 @Injectable()
 export class OrganizationRepositoryAdapter implements OrganizationRepositoryPort {
@@ -21,9 +21,9 @@ export class OrganizationRepositoryAdapter implements OrganizationRepositoryPort
     return count > 0;
   }
 
-  async findPaged(
-    query: FindOrganizationsRepoQuery,
-  ): Promise<FindOrganizationsRepoResult> {
+  async findPaged<F extends string>(
+    query: FindPagedRepoQuery<F>,
+  ): Promise<FindPagedRepoResult<Organization>> {
     const { rows, count } = await OrganizationModel.findAndCountAll({
       offset: query.offset,
       limit: query.limit,

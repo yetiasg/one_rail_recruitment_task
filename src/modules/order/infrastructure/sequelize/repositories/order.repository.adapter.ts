@@ -6,10 +6,14 @@ import {
 import { Order } from "@modules/order/domain/entities/order.entity";
 import { OrderModel } from "../models/order.model";
 import { OrderPersistenceMapper } from "../mappers/order.persistence-mapper";
-import { UserModel } from "@modules/user/infrastructure/persistence/sequelize/models/user.model";
 import { OrganizationModel } from "@modules/organization/infrastructure/sequelize/models/organization.model";
-import { UserPersistenceMapper } from "@modules/user/infrastructure/persistence/sequelize/mappers/user.persistence-mapper";
 import { OrganizationPersistenceMapper } from "@modules/organization/infrastructure/sequelize/mappers/organization.persistence-mapper";
+import {
+  FindPagedRepoQuery,
+  FindPagedRepoResult,
+} from "@shared/application/pagination/pagination.type";
+import { UserModel } from "@modules/user/infrastructure/persistence/sequelize/models/user.model";
+import { UserPersistenceMapper } from "@modules/user/infrastructure/persistence/sequelize/mappers/user.persistence-mapper";
 
 @Injectable()
 export class OrderRepositoryAdapter implements OrderRepositoryPort {
@@ -67,6 +71,21 @@ export class OrderRepositoryAdapter implements OrderRepositoryPort {
       organization: OrganizationPersistenceMapper.toDomain(
         json.OrganizationModel,
       ),
+    };
+  }
+
+  async findPaged<F extends string>(
+    query: FindPagedRepoQuery<F>,
+  ): Promise<FindPagedRepoResult<Order>> {
+    const { rows, count } = await OrderModel.findAndCountAll({
+      offset: query.offset,
+      limit: query.limit,
+      order: [[query.orderBy.field, query.orderBy.direction.toUpperCase()]],
+    });
+
+    return {
+      rows: rows.map((row) => OrderPersistenceMapper.toDomain(row)),
+      total: count,
     };
   }
 
