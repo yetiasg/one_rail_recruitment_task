@@ -88,7 +88,13 @@ function buildArgs(
   return args;
 }
 
-export function registerControllers(app: Express) {
+export function registerControllers(
+  app: Express,
+  options?: { globalPrefix?: string },
+) {
+  const globalPrefix = normalizePrefix(options?.globalPrefix ?? "");
+  const baseRouter = Router();
+
   controllers.forEach((ControllerClass) => {
     const controller = appContainer.resolve(ControllerClass);
 
@@ -152,6 +158,9 @@ export function registerControllers(app: Express) {
       );
     }
 
-    app.use(prefix ?? "/", router);
+    baseRouter.use(prefix ?? "/", router);
   });
+
+  if (globalPrefix) app.use(globalPrefix, baseRouter);
+  else app.use(baseRouter);
 }
