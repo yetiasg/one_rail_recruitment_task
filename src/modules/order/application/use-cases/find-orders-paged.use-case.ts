@@ -7,10 +7,12 @@ import {
   PaginationQuery,
 } from "@shared/application/pagination/pagination.type";
 import { BadRequestException } from "@kernel/http/http-exceptions";
+import { Injectable } from "@kernel/di/injectable.decorator";
 
 export interface FindOrdersQuery
   extends OrderBy<"orderDate">, PaginationQuery {}
 
+@Injectable()
 export class FindOrdersPagedUseCase {
   constructor(private readonly orderRepo: OrderRepositoryPort) {}
 

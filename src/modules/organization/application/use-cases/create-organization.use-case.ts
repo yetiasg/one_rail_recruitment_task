@@ -1,6 +1,6 @@
-import { Injectable } from "@kernel/di/injectable.decorator";
 import { Organization } from "@modules/organization/domain/entities/organization.entity";
-import { type OrganizationRepositoryPort } from "../ports/organization-repository.port";
+import { OrganizationRepositoryPort } from "../ports/organization-repository.port";
+import { Injectable } from "@kernel/di/injectable.decorator";
 
 export interface CreateOrganizationInput {
   name: string;

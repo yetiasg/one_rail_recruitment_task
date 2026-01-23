@@ -13,9 +13,7 @@ export interface FindUsersQuery extends OrderBy<"email">, PaginationQuery {}
 
 @Injectable()
 export class FindUsersPagedUseCase {
-  constructor(
-    private readonly userRepo: Pick<UserRepositoryPort, "findPaged">,
-  ) {}
+  constructor(private readonly userRepo: UserRepositoryPort) {}
 
   async execute(input: FindUsersQuery): Promise<PagedResult<User>> {
     const page = clampInt(input.page ?? 1, 1, 1_000_000);

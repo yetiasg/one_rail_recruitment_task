@@ -43,38 +43,6 @@ export class UserController {
     res.status(200).send(result);
   }
 
-  /**
-   * @openapi
-   * /users/{id}:
-   *   get:
-   *     tags: [Users]
-   *     summary: Get user by id
-   *     parameters:
-   *       - in: path
-   *         name: id
-   *         required: true
-   *         schema:
-   *           type: string
-   *           format: uuid
-   *     responses:
-   *       200:
-   *         description: OK
-   *         headers:
-   *           X-Request-Id:
-   *             description: Correlation id
-   *             schema:
-   *               type: string
-   *         content:
-   *           application/json:
-   *             schema:
-   *               type: object
-   *               required: [id, email]
-   *               properties:
-   *                 id: { type: string, format: uuid }
-   *                 email: { type: string, format: email }
-   *       404:
-   *         description: Not found
-   */
   @Get(":userId")
   async findUserById(
     @Param("userId") userId: string,

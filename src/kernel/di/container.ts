@@ -65,6 +65,14 @@ export class Container {
         undefined) ??
       [];
 
+    if (constructorParamTypes.some((t) => t === Function)) {
+      console.error(
+        "DI paramtypes include Function for:",
+        concrete.name,
+        constructorParamTypes.map((t) => t?.name),
+      );
+    }
+
     const dependencies = constructorParamTypes.map((dependency) => {
       if (dependency === Object) {
         // typical case: interface/type was used
@@ -73,6 +81,7 @@ export class Container {
             `Use abstract classes (ports) + container.bind(...) or inject a concrete class.`,
         );
       }
+
       return this.resolve(dependency as Constructor<T>);
     });
     const instance = new concrete(...dependencies);

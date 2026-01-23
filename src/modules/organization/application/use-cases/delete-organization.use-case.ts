@@ -1,5 +1,5 @@
 import { Injectable } from "@kernel/di/injectable.decorator";
-import { type OrganizationRepositoryPort } from "../ports/organization-repository.port";
+import { OrganizationRepositoryPort } from "../ports/organization-repository.port";
 import { Organization } from "@modules/organization/domain/entities/organization.entity";
 
 @Injectable()
