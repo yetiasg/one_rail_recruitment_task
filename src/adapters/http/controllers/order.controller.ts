@@ -14,6 +14,7 @@ import { FindOrdersPagedUseCase } from "@modules/order/application/use-cases/fin
 import { Body, Param, Query, Res } from "@kernel/docorators/params.decorator";
 import { CreateOrderRequestDto } from "../dto/order/create-order.request.dto";
 import { UpdateOrderRequestDto } from "../dto/order/update-order.request.dto";
+import { SortDirection } from "@shared/application/pagination/pagination.type";
 
 @Controller("orders")
 export class OrderController {
@@ -29,7 +30,7 @@ export class OrderController {
   async findOrdersPaged(
     @Query("page") pageRaw: string | undefined,
     @Query("pageSize") pageSizeRaw: string | undefined,
-    @Query("sortDir") sortDir: "asc" | "desc" | undefined,
+    @Query("sortDir") sortDir: SortDirection | undefined,
     @Res() res: Response,
   ): Promise<void> {
     const page = pageRaw ? Number(pageRaw) : undefined;

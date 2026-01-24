@@ -14,6 +14,8 @@ import { FindOrganizationByIdUseCase } from "@modules/organization/application/u
 import { DeleteOrganizationUseCase } from "@modules/organization/application/use-cases/delete-organization.use-case";
 import { UpdateOrganizationUseCase } from "@modules/organization/application/use-cases/update-organization.use-case";
 import { CreateOrganizationUseCase } from "@modules/organization/application/use-cases/create-organization.use-case";
+import { UpdateOrganizationRequestDto } from "../dto/organization/update-organization.request.dto";
+import { SortDirection } from "@shared/application/pagination/pagination.type";
 
 @Controller("organizations")
 export class OrganizationController {
@@ -29,7 +31,7 @@ export class OrganizationController {
   async findOrganizationsPaged(
     @Query("page") pageRaw: string | undefined,
     @Query("pageSize") pageSizeRaw: string | undefined,
-    @Query("sortDir") sortDir: "asc" | "desc" | undefined,
+    @Query("sortDir") sortDir: SortDirection | undefined,
     @Res() res: Response,
   ): Promise<void> {
     const page = pageRaw ? Number(pageRaw) : undefined;
@@ -64,7 +66,7 @@ export class OrganizationController {
   @Put(":organizationId")
   async updateOrganization(
     @Param("organizationId") organizationId: Organization["id"],
-    @Body(CreateOrganizationRequestDto) data: CreateOrganizationRequestDto,
+    @Body(UpdateOrganizationRequestDto) data: UpdateOrganizationRequestDto,
     @Res() res: Response,
   ): Promise<void> {
     const organization = await this.updateOrganizationUseCase.execute(

@@ -14,6 +14,7 @@ import { UpdateUserUseCase } from "@modules/user/application/use-cases/update-us
 import { FindUserByIdUseCase } from "@modules/user/application/use-cases/find-user-by-id.use-case";
 import { DeleteUserUseCase } from "@modules/user/application/use-cases/delete-user.use-case";
 import { UpdateUserRequestDto } from "../dto/user/update-user.request.dto";
+import { SortDirection } from "@shared/application/pagination/pagination.type";
 
 @Controller("users")
 export class UserController {
@@ -29,7 +30,7 @@ export class UserController {
   async findUsersPaged(
     @Query("page") pageRaw: string | undefined,
     @Query("pageSize") pageSizeRaw: string | undefined,
-    @Query("sortDir") sortDir: "asc" | "desc" | undefined,
+    @Query("sortDir") sortDir: SortDirection | undefined,
     @Res() res: Response,
   ): Promise<void> {
     const page = pageRaw ? Number(pageRaw) : undefined;
