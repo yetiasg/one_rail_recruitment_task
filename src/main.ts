@@ -21,13 +21,15 @@ import { OrganizationModel } from "@modules/organization/infrastructure/sequeliz
 import { NotFoundException } from "@kernel/http/http-exceptions";
 import { initModels } from "@infrastructure/db/sequelize.models-init";
 import { crateRedisStore } from "@infrastructure/redis/redis";
+import cors from "cors";
+
+const allowedOrigins = ["http://localhost:3001"];
 
 function bootstrap() {
   Config.register({ schema });
 
   createLogger();
   const sequelize = createSequelize();
-
   crateRedisStore();
 
   initModels(sequelize, OrderModel, UserModel, OrganizationModel);
@@ -36,6 +38,22 @@ function bootstrap() {
   registerBindings();
 
   const app = createApp();
+  app.use(
+    cors({
+      origin: (origin, cb) => {
+        if (!origin) return cb(null, true);
+
+        if (allowedOrigins.includes(origin)) return cb(null, true);
+        return cb(new Error("CORS: origin not allowed"));
+      },
+      methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization", "X-Request-Id"],
+      exposedHeaders: ["X-Request-Id"],
+      credentials: false,
+      maxAge: 600,
+    }),
+  );
+
   app.use(httpHeadersLogger);
   registerControllers(app, { globalPrefix: "api" });
 
