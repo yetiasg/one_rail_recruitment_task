@@ -9,12 +9,12 @@ module.exports = {
         primaryKey: true,
       },
 
-      firstName: {
+      first_name: {
         type: Sequelize.STRING(100),
         allowNull: false,
       },
 
-      lastName: {
+      last_name: {
         type: Sequelize.STRING(100),
         allowNull: false,
       },
@@ -25,7 +25,7 @@ module.exports = {
         unique: true,
       },
 
-      organizationId: {
+      organization_id: {
         type: Sequelize.CHAR(36),
         allowNull: false,
         references: {
@@ -36,13 +36,13 @@ module.exports = {
         onDelete: "RESTRICT",
       },
 
-      dateCreated: {
+      date_created: {
         type: Sequelize.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
 
-      updatedAt: {
+      updated_at: {
         type: Sequelize.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal(

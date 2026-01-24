@@ -6,12 +6,12 @@ module.exports = {
     await queryInterface.createTable("orders", {
       id: { type: Sequelize.CHAR(36), allowNull: false, primaryKey: true },
 
-      totalAmount: {
+      total_amount: {
         type: Sequelize.DECIMAL(12, 2),
         allowNull: false,
       },
 
-      userId: {
+      user_id: {
         type: Sequelize.CHAR(36),
         allowNull: false,
         references: { model: "users", key: "id" },
@@ -19,7 +19,7 @@ module.exports = {
         onDelete: "RESTRICT",
       },
 
-      organizationId: {
+      organization_id: {
         type: Sequelize.CHAR(36),
         allowNull: false,
         references: { model: "organizations", key: "id" },
@@ -27,13 +27,13 @@ module.exports = {
         onDelete: "RESTRICT",
       },
 
-      orderDate: {
+      order_date: {
         type: Sequelize.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
 
-      updatedAt: {
+      updated_at: {
         type: Sequelize.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal(
