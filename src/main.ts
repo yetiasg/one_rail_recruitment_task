@@ -12,11 +12,15 @@ import { mountSwagger } from "@adapters/http/swagger/swagger";
 import { mountReadiness } from "@adapters/http/readiness/readiness";
 import { sequelize } from "@infrastructure/db/sequelize.instance";
 import { mountHealth } from "@adapters/http/health/health";
+import { httpHeadersLogger } from "@adapters/http/middlewares/http-headers-logger.middleware";
 
 function bootstrap() {
   const app = createApp();
 
   registerBindings();
+
+  app.use(httpHeadersLogger);
+
   registerControllers(app);
 
   app.use(globalExceptionFilter);

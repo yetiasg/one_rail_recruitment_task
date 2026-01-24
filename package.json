@@ -39,10 +39,12 @@
     "express": "^5.2.1",
     "joi": "^18.0.2",
     "mysql2": "^3.16.1",
+    "nest-winston": "^1.10.2",
     "reflect-metadata": "^0.2.2",
     "sequelize": "^6.37.7",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "winston": "^3.19.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.3.1",

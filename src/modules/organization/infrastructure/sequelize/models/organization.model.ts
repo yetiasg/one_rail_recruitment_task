@@ -22,6 +22,7 @@ OrganizationModel.init(
     dateFounded: {
       type: DataTypes.DATE,
       allowNull: false,
+      field: "date_founded",
     },
     createdAt: {
       type: DataTypes.DATE,
