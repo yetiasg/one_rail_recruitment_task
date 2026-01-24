@@ -1,6 +1,8 @@
 import { sequelize } from "@infrastructure/db/sequelize.instance";
+import { redisStore } from "@infrastructure/redis/redis";
 import { withTimeout } from "@shared/infrastructure/with-timeout";
 import type { Express, Request, Response } from "express";
+import Keyv from "keyv";
 import type { Sequelize } from "sequelize";
 
 type Status = "ok" | "fail";
@@ -17,8 +19,16 @@ async function pingMysql(sequelize: Sequelize): Promise<void> {
   await sequelize.authenticate();
 }
 
-async function pingRedis(sequelize: Sequelize): Promise<void> {
-  await sequelize.query("SELECT 1");
+async function pingRedis(redisStore: Keyv): Promise<void> {
+  const key = "__readiness__:redis";
+  const value = Date.now().toString();
+
+  await redisStore.set(key, value, 1000);
+  const got = await redisStore.get<string>(key);
+
+  if (got !== value) {
+    throw new Error("Redis readiness failed: read-after-write mismatch");
+  }
 }
 
 type ServiceCheck = {
@@ -39,7 +49,7 @@ const serviceChecks: ServiceCheck[] = [
   },
   {
     service: "redis",
-    checkCb: () => withTimeout(pingRedis(sequelize), 500),
+    checkCb: () => withTimeout(pingRedis(redisStore), 500),
     result: {
       status: "fail",
       latencyMs: 0,
