@@ -42,11 +42,11 @@ export class OrganizationRepositoryAdapter implements OrganizationRepositoryPort
   }
 
   async update(data: Organization): Promise<Organization> {
-    const [, org] = await OrganizationModel.update(data, {
+    await OrganizationModel.update(data, {
       where: { id: data.id },
-      returning: true,
     });
-    return OrganizationPersistenceMapper.toDomain(org[0]);
+    const updated = (await OrganizationModel.findByPk(data.id))!;
+    return OrganizationPersistenceMapper.toDomain(updated);
   }
 
   async delete(id: Organization["id"]): Promise<boolean> {
