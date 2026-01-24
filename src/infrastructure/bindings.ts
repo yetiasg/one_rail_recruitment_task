@@ -5,9 +5,12 @@ import { OrganizationRepositoryPort } from "@modules/organization/application/po
 import { OrganizationRepositoryAdapter } from "@modules/organization/infrastructure/sequelize/repositories/organization.repository.adapter";
 import { UserRepositoryPort } from "@modules/user/application/ports/user-repository.port";
 import { UserRepositoryAdapter } from "@modules/user/infrastructure/persistence/sequelize/repositories/user.repository.adapter";
+import { CachePort } from "src/core/cache/cache.port";
+import { RedisCacheAdapter } from "./redis/redis.adapter";
 
 export function registerBindings(): void {
   appContainer.bind(OrganizationRepositoryPort, OrganizationRepositoryAdapter);
   appContainer.bind(UserRepositoryPort, UserRepositoryAdapter);
   appContainer.bind(OrderRepositoryPort, OrderRepositoryAdapter);
+  appContainer.bind(CachePort, RedisCacheAdapter);
 }

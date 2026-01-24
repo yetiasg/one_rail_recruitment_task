@@ -10,6 +10,11 @@ export type AppEnv = {
   DB_USER: string;
   DB_PASSWORD: string;
 
+  REDIS_HOST: string;
+  REDIS_PORT: number;
+  REDIS_USER: string;
+  REDIS_PASSWORD: string;
+
   LOG_LEVEL: "error" | "warn" | "info" | "http" | "verbose" | "debug" | "silly";
 };
 
@@ -24,6 +29,11 @@ export const schema = Joi.object<AppEnv>({
   DB_NAME: Joi.string().required(),
   DB_USER: Joi.string().required(),
   DB_PASSWORD: Joi.string().required(),
+
+  REDIS_HOST: Joi.string().required(),
+  REDIS_PORT: Joi.number().integer().min(1).max(65535).default(6379),
+  REDIS_USER: Joi.string().required(),
+  REDIS_PASSWORD: Joi.string().required(),
 
   LOG_LEVEL: Joi.string()
     .valid("error", "warn", "info", "http", "verbose", "debug", "silly")

@@ -20,12 +20,15 @@ import { UserModel } from "@modules/user/infrastructure/persistence/sequelize/mo
 import { OrganizationModel } from "@modules/organization/infrastructure/sequelize/models/organization.model";
 import { NotFoundException } from "@kernel/http/http-exceptions";
 import { initModels } from "@infrastructure/db/sequelize.models-init";
+import { crateRedisStore } from "@infrastructure/redis/redis";
 
 function bootstrap() {
   Config.register({ schema });
 
   createLogger();
   const sequelize = createSequelize();
+
+  crateRedisStore();
 
   initModels(sequelize, OrderModel, UserModel, OrganizationModel);
   createModelsAssociations();
@@ -36,6 +39,10 @@ function bootstrap() {
   app.use(httpHeadersLogger);
   registerControllers(app, { globalPrefix: "api" });
 
+  mountReadiness(app);
+  mountHealth(app);
+  mountSwagger(app);
+
   app.use((req, _res, next) => {
     next(
       new NotFoundException(`Route ${req.method} ${req.originalUrl} not found`),
@@ -43,10 +50,6 @@ function bootstrap() {
   });
 
   app.use(globalExceptionFilter);
-
-  mountReadiness(app);
-  mountHealth(app);
-  mountSwagger(app);
 
   const PORT = Config.get<AppEnv, "PORT">("PORT");
 
