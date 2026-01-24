@@ -59,6 +59,8 @@ function buildArgs(
         break;
       case "body": {
         const body = req.body as Record<string, unknown> | undefined;
+        if (!body) throw new BadRequestException("Request body is required");
+
         if (!dto) {
           args[index] = body;
           break;

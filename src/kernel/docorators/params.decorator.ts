@@ -75,6 +75,11 @@ export function Body<T extends object>(
     propertyKey: string | symbol,
     parameterIndex: number,
   ): void {
+    if (dto && typeof dto !== "function")
+      throw new Error(
+        `@Body() expects a class constructor, got: ${typeof dto}`,
+      );
+
     defineParam(target, propertyKey, parameterIndex, "body", undefined, dto);
   };
 }
