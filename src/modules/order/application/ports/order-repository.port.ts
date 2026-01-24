@@ -4,8 +4,7 @@ import {
   FindPagedRepoResult,
 } from "@shared/application/pagination/pagination.type";
 
-export interface OrderWithRelations {
-  order: Order;
+export interface OrderWithRelations extends Order {
   user: {
     id: string;
     firstName: string;
@@ -31,7 +30,7 @@ export abstract class OrderRepositoryPort {
   abstract findPaged<F extends string>(
     query: FindPagedRepoQuery<F>,
   ): Promise<FindPagedRepoResult<Order>>;
-  abstract create(data: Omit<Order, "id">): Promise<Order>;
+  abstract create(data: Order): Promise<Order>;
   abstract update(order: Order): Promise<Order>;
   abstract delete(id: Order["id"]): Promise<boolean>;
 }

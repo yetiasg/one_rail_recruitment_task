@@ -1,4 +1,4 @@
-import { logger } from "@shared/helpers/logger";
+import { logger } from "@infrastructure/logging/logger";
 import type { Request, Response, NextFunction } from "express";
 
 function redactHeaders(headers: Record<string, unknown>) {

@@ -60,8 +60,6 @@ export class OrderController {
   ): Promise<void> {
     const order = await this.createOrderUseCase.execute({
       ...data,
-      // todo - user auth
-      userId: "",
     });
     res.status(201).send({ order });
   }

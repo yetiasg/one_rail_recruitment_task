@@ -41,17 +41,20 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
     };
   }
 
-  async create(data: Omit<User, "id">): Promise<User> {
-    const user = await UserModel.create(data);
+  async create(data: User): Promise<User> {
+    const user = await UserModel.create({ ...data, updatedAt: new Date() });
     return UserPersistenceMapper.toDomain(user);
   }
 
   async update(data: User): Promise<User> {
-    const [, user] = await UserModel.update(data, {
-      where: { id: data.id },
-      returning: true,
-    });
-    return UserPersistenceMapper.toDomain(user[0]);
+    await UserModel.update(
+      { ...data, updatedAt: new Date() },
+      {
+        where: { id: data.id },
+      },
+    );
+    const updated = (await UserModel.findByPk(data.id))!;
+    return UserPersistenceMapper.toDomain(updated);
   }
 
   async delete(id: User["id"]): Promise<boolean> {

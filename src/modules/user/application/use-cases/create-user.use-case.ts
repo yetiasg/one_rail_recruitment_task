@@ -31,7 +31,7 @@ export class CreateUserUseCase {
       );
 
     const emailOccupied = await this.userRepo.existByEmail(email);
-    if (!emailOccupied)
+    if (emailOccupied)
       throw new NotFoundException(`Email ${email} is already occupied`);
 
     const user = new User(

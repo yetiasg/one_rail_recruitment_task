@@ -6,7 +6,9 @@ export class OrderPersistenceMapper {
     return new Order(
       row.id,
       row.orderDate,
-      row.totalAmount,
+      typeof row.totalAmount === "string"
+        ? Number(row.totalAmount)
+        : row.totalAmount,
       row.userId,
       row.organizationId,
     );

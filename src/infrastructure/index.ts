@@ -1,2 +1,1 @@
 import "./bindings";
-import "./db";

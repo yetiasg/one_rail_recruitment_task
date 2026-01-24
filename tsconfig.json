@@ -25,7 +25,8 @@
       "@adapters/*": ["src/adapters/*"],
       "@infrastructure/*": ["src/infrastructure/*"],
       "@shared/*": ["src/shared/*"],
-      "@test/*": ["test/*"]
+      "@test/*": ["test/*"],
+      "@config/*": ["src/core/config/*"]
     },
     "plugins": [
       { "transform": "tsc-alias" }

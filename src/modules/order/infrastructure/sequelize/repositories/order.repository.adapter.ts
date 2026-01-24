@@ -34,6 +34,7 @@ export class OrderRepositoryAdapter implements OrderRepositoryPort {
       include: [
         {
           model: UserModel,
+          as: "user",
           required: true,
           attributes: [
             "id",
@@ -47,6 +48,7 @@ export class OrderRepositoryAdapter implements OrderRepositoryPort {
         },
         {
           model: OrganizationModel,
+          as: "organization",
           required: true,
           attributes: [
             "id",
@@ -62,15 +64,13 @@ export class OrderRepositoryAdapter implements OrderRepositoryPort {
     if (!row) return null;
 
     const json = row.toJSON<
-      Order & { UserModel: UserModel; OrganizationModel: OrganizationModel }
+      Order & { user: UserModel; organization: OrganizationModel }
     >();
 
     return {
-      order: OrderPersistenceMapper.toDomain(row),
-      user: UserPersistenceMapper.toDomain(json.UserModel),
-      organization: OrganizationPersistenceMapper.toDomain(
-        json.OrganizationModel,
-      ),
+      ...OrderPersistenceMapper.toDomain(row),
+      user: UserPersistenceMapper.toDomain(json.user),
+      organization: OrganizationPersistenceMapper.toDomain(json.organization),
     };
   }
 
@@ -91,21 +91,22 @@ export class OrderRepositoryAdapter implements OrderRepositoryPort {
 
   async create(data: Order): Promise<Order> {
     const row = await OrderModel.create({
-      orderDate: data.orderDate,
-      totalAmount: data.totalAmount,
-      userId: data.userId,
-      organizationId: data.organizationId,
+      ...data,
+      updatedAt: new Date(),
     });
 
     return OrderPersistenceMapper.toDomain(row);
   }
 
   async update(data: Order): Promise<Order> {
-    const [, order] = await OrderModel.update(data, {
-      where: { id: data.id },
-      returning: true,
-    });
-    return OrderPersistenceMapper.toDomain(order[0]);
+    await OrderModel.update(
+      { ...data, updatedAt: new Date() },
+      {
+        where: { id: data.id },
+      },
+    );
+    const updated = (await OrderModel.findByPk(data.id))!;
+    return OrderPersistenceMapper.toDomain(updated);
   }
 
   async delete(id: Order["id"]): Promise<boolean> {
