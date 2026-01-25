@@ -1,14 +1,14 @@
 # one_rail_recruitment_task
 
-A Node.js (TypeScript) REST API built using a hexagonal (ports & adapters) architecture, dependency injection, MySQL with Sequelize ORM, and Swagger documentation.
+A Node.js (TypeScript) REST API built using a hexagonal (ports & adapters) architecture, Express, Sequelize ORM (MySQL), Redis caching, and Swagger (OpenAPI) documentation.
 
 ---
 
 ## Requirements
 
-- Node.js (recommended version according to `.nvmrc`)
+- Node.js (version defined in `.nvmrc`)
 - pnpm
-- Docker + Docker Compose (for database and caching)
+- Docker & Docker Compose
 
 ---
 
@@ -26,7 +26,7 @@ pnpm install
 cp .env.example .env
 ```
 
-3. Start infrastructure using Docker Compose:
+3. Start infrastructure (MySQL + Redis):
 
 ```bash
 pnpm compose
@@ -39,43 +39,58 @@ pnpm migrate:up
 pnpm seed
 ```
 
-5. Start the application:
+5. Start the application in development mode:
 
 ```bash
 pnpm dev
 ```
 
-5. Stop infrastructure :
+The API will be available on the port defined in `.env`.
+
+To stop infrastructure:
 
 ```bash
 pnpm compose-down
 ```
 
-The API will be available on the port defined in `.env`
-
 ---
 
-## Running with Docker (API + Database)
+## Running with Docker (API + Dependencies)
 
-Build docker image:
+The application can be run fully containerized using Docker Compose:
 
 ```bash
-pnpm docker-build
+docker compose -f docker-compose.yml up -d
+```
+
+This starts:
+
+- API: http://localhost:3000
+- MySQL database
+- Redis
+- Redis Commander: http://localhost:8081
+
+To stop all services:
+
+```bash
+docker compose -f docker-compose.yml down
 ```
 
 ---
 
 ## Swagger UI
 
-After starting the application, the Swagger UI is available at the following endpoint:
+Swagger (OpenAPI) documentation is available at:
 
-- `http://localhost:<PORT>/swagger`
+```
+http://localhost:3000/swagger
+```
 
 ---
 
 ## Running Tests
 
-Run the full test suite:
+Run all unit tests:
 
 ```bash
 pnpm test
@@ -97,13 +112,13 @@ pnpm test:coverage
 
 ## Key Design Decisions
 
-- **Architecture**: Hexagonal architecture (ports & adapters) to clearly separate domain logic from infrastructure (HTTP, database), improving testability and maintainability.
-- **Dependency Injection**: Centralized DI container to reduce coupling and enable easy mocking in tests.
-- **ORM**: **Sequelize** with MySQL for rapid schema modeling, migrations, and seed data.
-- **Error Handling**: Centralized error-handling middleware with consistent HTTP error mapping (e.g. `400`, `404`, `409`).
-- **Input Validation**: Validation performed at the HTTP adapter level (DTOs), ensuring domain logic operates only on valid data.
-- **Caching**:
-- **Swagger / OpenAPI**: Single source of truth for the API contract, enabling easy testing and integration.
+- **Architecture**: Hexagonal (ports & adapters) architecture for strong separation of concerns and high testability.
+- **ORM**: **Sequelize** with MySQL for mature migrations, transactions, and schema control.
+- **Error Handling**: Centralized HTTP error middleware with consistent error responses.
+- **Validation**: Request validation at the transport layer (DTOs / schemas).
+- **Caching**: **Redis** used to cache frequently accessed data and reduce database load.
+- **Swagger / OpenAPI**: Swagger serves as the single source of truth for the API contract.
+- **Testing**: Unit tests focus on domain and application layers with infrastructure mocked.
 
 ---
 
@@ -111,6 +126,8 @@ pnpm test:coverage
 
 - `src/` – application source code
 - `migrations/` – database migrations
-- `seeders/` – initial seed data
+- `seeders/` – database seed data
 - `test/unit/` – unit tests
-- `Dockerfile`, `docker-compose.yml` – Docker setup
+- `Dockerfile` – multi-stage production build
+- `docker-compose.yml` – container orchestration
+- `.env.example` – environment variable template
