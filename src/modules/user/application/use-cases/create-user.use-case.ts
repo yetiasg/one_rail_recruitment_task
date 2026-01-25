@@ -1,8 +1,8 @@
 import { Injectable } from "@kernel/di/injectable.decorator";
-import { UserRepositoryPort } from "../ports/user-repository.port";
 import { User } from "@modules/user/domain/entities/user.entity";
-import { OrganizationRepositoryPort } from "@modules/organization/application/ports/organization-repository.port";
-import { NotFoundException } from "@kernel/http/http-exceptions";
+import { UserRepositoryPort } from "@modules/user/domain/ports/user-repository.port";
+import { OrganizationRepositoryPort } from "@modules/organization/domain/ports/organization-repository.port";
+import { NotFoundError } from "@shared/errors/not-found.error";
 
 export interface CreateUserInput {
   firstName: string;
@@ -26,13 +26,11 @@ export class CreateUserUseCase {
   }: CreateUserInput): Promise<User> {
     const orgExists = await this.orgRepo.existsById(organizationId);
     if (!orgExists)
-      throw new NotFoundException(
-        `Organization ${organizationId} does not exist`,
-      );
+      throw new NotFoundError(`Organization ${organizationId} does not exist`);
 
     const emailOccupied = await this.userRepo.existByEmail(email);
     if (emailOccupied)
-      throw new NotFoundException(`Email ${email} is already occupied`);
+      throw new NotFoundError(`Email ${email} is already occupied`);
 
     const user = new User(
       crypto.randomUUID(),

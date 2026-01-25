@@ -1,7 +1,7 @@
 import { Injectable } from "@kernel/di/injectable.decorator";
-import { OrderRepositoryPort } from "../ports/order-repository.port";
 import { Order } from "@modules/order/domain/entities/order.entity";
-import { NotFoundException } from "@kernel/http/http-exceptions";
+import { OrderRepositoryPort } from "@modules/order/domain/ports/order-repository.port";
+import { NotFoundError } from "@shared/errors/not-found.error";
 
 export interface UpdateOrderInput {
   totalAmount: Order["totalAmount"];
@@ -13,7 +13,7 @@ export class UpdateOrderUseCase {
 
   async execute(id: Order["id"], data: UpdateOrderInput): Promise<Order> {
     const orderExists = await this.orderRepo.findById(id);
-    if (!orderExists) throw new NotFoundException("Order not found");
+    if (!orderExists) throw new NotFoundError("Order not found");
     return this.orderRepo.update({ ...orderExists, ...data });
   }
 }

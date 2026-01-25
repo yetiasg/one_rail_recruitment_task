@@ -1,7 +1,7 @@
 import { User } from "@modules/user/domain/entities/user.entity";
-import { UserRepositoryPort } from "../ports/user-repository.port";
-import { NotFoundException } from "@kernel/http/http-exceptions";
 import { Injectable } from "@kernel/di/injectable.decorator";
+import { UserRepositoryPort } from "@modules/user/domain/ports/user-repository.port";
+import { NotFoundError } from "@shared/errors/not-found.error";
 
 export interface UpdateUserInput {
   firstName: User["firstName"];
@@ -14,7 +14,7 @@ export class UpdateUserUseCase {
 
   async execute(id: User["id"], data: UpdateUserInput): Promise<User> {
     const user = await this.userRepo.findById(id);
-    if (!user) throw new NotFoundException("User not found.");
+    if (!user) throw new NotFoundError("User not found.");
 
     return this.userRepo.update({ ...user, ...data });
   }

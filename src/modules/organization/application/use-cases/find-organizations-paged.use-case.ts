@@ -1,11 +1,8 @@
 import { Injectable } from "@kernel/di/injectable.decorator";
-import { BadRequestException } from "@kernel/http/http-exceptions";
-import {
-  clampInt,
-  PagedResult,
-} from "@shared/application/pagination/pagination.type";
-import { OrganizationRepositoryPort } from "../ports/organization-repository.port";
+import { clampInt, PagedResult } from "@shared/pagination/pagination.type";
 import { Organization } from "@modules/organization/domain/entities/organization.entity";
+import { OrganizationRepositoryPort } from "@modules/organization/domain/ports/organization-repository.port";
+import { BadRequestError } from "@shared/errors/bad-request.error";
 
 export interface FindOrganizationsQuery {
   page?: number;
@@ -25,7 +22,7 @@ export class FindOrganizationsPagedUseCase {
 
     const sortDir = raw.sortDir ?? "asc";
     if (sortDir !== "asc" && sortDir !== "desc") {
-      throw new BadRequestException(`Unsupported sortDir: ${String(sortDir)}`, {
+      throw new BadRequestError(`Unsupported sortDir: ${String(sortDir)}`, {
         allowed: ["asc", "desc"],
       });
     }

@@ -1,7 +1,7 @@
 import { Injectable } from "@kernel/di/injectable.decorator";
-import { OrganizationRepositoryPort } from "../ports/organization-repository.port";
 import { Organization } from "@modules/organization/domain/entities/organization.entity";
-import { NotFoundException } from "@kernel/http/http-exceptions";
+import { OrganizationRepositoryPort } from "@modules/organization/domain/ports/organization-repository.port";
+import { NotFoundError } from "@shared/errors/not-found.error";
 
 @Injectable()
 export class DeleteOrganizationUseCase {
@@ -9,7 +9,7 @@ export class DeleteOrganizationUseCase {
 
   async execute(id: Organization["id"]): Promise<Organization> {
     const org = await this.orgRepo.findById(id);
-    if (!org) throw new NotFoundException(`Organization not found.`);
+    if (!org) throw new NotFoundError(`Organization not found.`);
     await this.orgRepo.delete(id);
     return org;
   }

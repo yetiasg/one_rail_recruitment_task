@@ -1,13 +1,13 @@
 import { Injectable } from "@kernel/di/injectable.decorator";
-import { UserRepositoryPort } from "../ports/user-repository.port";
-import { BadRequestException } from "@kernel/http/http-exceptions";
 import {
   clampInt,
   OrderBy,
   PagedResult,
   PaginationQuery,
-} from "@shared/application/pagination/pagination.type";
+} from "@shared/pagination/pagination.type";
 import { User } from "@modules/user/domain/entities/user.entity";
+import { UserRepositoryPort } from "@modules/user/domain/ports/user-repository.port";
+import { BadRequestError } from "@shared/errors/bad-request.error";
 
 export interface FindUsersQuery extends OrderBy<"email">, PaginationQuery {}
 
@@ -22,12 +22,12 @@ export class FindUsersPagedUseCase {
     const sortDir = input.direction ?? "asc";
 
     if (sortBy !== "email")
-      throw new BadRequestException(`Unsupported sortBy: ${String(sortBy)}`, {
+      throw new BadRequestError(`Unsupported sortBy: ${String(sortBy)}`, {
         allowed: ["email"],
       });
 
     if (sortDir !== "asc" && sortDir !== "desc")
-      throw new BadRequestException(`Unsupported sortDir: ${String(sortDir)}`, {
+      throw new BadRequestError(`Unsupported sortDir: ${String(sortDir)}`, {
         allowed: ["asc", "desc"],
       });
 

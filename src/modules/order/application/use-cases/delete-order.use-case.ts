@@ -1,7 +1,7 @@
 import { Injectable } from "@kernel/di/injectable.decorator";
-import { OrderRepositoryPort } from "../ports/order-repository.port";
 import { Order } from "@modules/order/domain/entities/order.entity";
-import { NotFoundException } from "@kernel/http/http-exceptions";
+import { OrderRepositoryPort } from "@modules/order/domain/ports/order-repository.port";
+import { NotFoundError } from "@shared/errors/not-found.error";
 
 @Injectable()
 export class DeleteOrderUseCase {
@@ -9,7 +9,7 @@ export class DeleteOrderUseCase {
 
   async execute(id: Order["id"]): Promise<Order> {
     const order = await this.orderRepo.findById(id);
-    if (!order) throw new NotFoundException("Order not found");
+    if (!order) throw new NotFoundError("Order not found");
     await this.orderRepo.delete(id);
     return order;
   }

@@ -1,13 +1,13 @@
 import { Order } from "@modules/order/domain/entities/order.entity";
-import { OrderRepositoryPort } from "../ports/order-repository.port";
 import {
   clampInt,
   OrderBy,
   PagedResult,
   PaginationQuery,
-} from "@shared/application/pagination/pagination.type";
-import { BadRequestException } from "@kernel/http/http-exceptions";
+} from "@shared/pagination/pagination.type";
 import { Injectable } from "@kernel/di/injectable.decorator";
+import { OrderRepositoryPort } from "@modules/order/domain/ports/order-repository.port";
+import { BadRequestError } from "@shared/errors/bad-request.error";
 
 export interface FindOrdersQuery
   extends OrderBy<"orderDate">, PaginationQuery {}
@@ -23,12 +23,12 @@ export class FindOrdersPagedUseCase {
     const sortDir = input.direction ?? "asc";
 
     if (sortBy !== "orderDate")
-      throw new BadRequestException(`Unsupported sortBy: ${String(sortBy)}`, {
+      throw new BadRequestError(`Unsupported sortBy: ${String(sortBy)}`, {
         allowed: ["email"],
       });
 
     if (sortDir !== "asc" && sortDir !== "desc")
-      throw new BadRequestException(`Unsupported sortDir: ${String(sortDir)}`, {
+      throw new BadRequestError(`Unsupported sortDir: ${String(sortDir)}`, {
         allowed: ["asc", "desc"],
       });
 

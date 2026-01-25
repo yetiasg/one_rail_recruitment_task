@@ -1,7 +1,7 @@
 import { Injectable } from "@kernel/di/injectable.decorator";
-import { UserRepositoryPort } from "../ports/user-repository.port";
 import { User } from "@modules/user/domain/entities/user.entity";
-import { NotFoundException } from "@kernel/http/http-exceptions";
+import { UserRepositoryPort } from "@modules/user/domain/ports/user-repository.port";
+import { NotFoundError } from "@shared/errors/not-found.error";
 
 @Injectable()
 export class FindUserByIdUseCase {
@@ -9,7 +9,7 @@ export class FindUserByIdUseCase {
 
   async execute(id: User["id"]): Promise<User> {
     const user = await this.userRepo.findById(id);
-    if (!user) throw new NotFoundException("User not found");
+    if (!user) throw new NotFoundError("User not found");
     return user;
   }
 }
