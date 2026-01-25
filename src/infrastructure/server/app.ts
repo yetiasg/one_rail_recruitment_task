@@ -1,5 +1,7 @@
 import express, { type Express } from "express";
 import helmet from "helmet";
+import cors from "cors";
+import { buildCorsOptionsFromConfig } from "@infrastructure/server/cors";
 
 export function createApp(): Express {
   const app = express();
@@ -15,6 +17,8 @@ export function createApp(): Express {
       crossOriginEmbedderPolicy: false,
     }),
   );
+
+  app.use(cors(buildCorsOptionsFromConfig()));
 
   return app;
 }

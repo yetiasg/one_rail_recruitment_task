@@ -5,7 +5,6 @@ import { registerControllers } from "@kernel/runtime/register-controllers";
 import { createApp } from "@infrastructure/server/app";
 import { registerBindings } from "@infrastructure/bindings";
 import { globalExceptionFilter } from "@kernel/http/global-exception-filter";
-import { mountSwagger } from "@adapters/http/system/swagger";
 import { mountReadiness } from "@adapters/http/system/readiness";
 import { mountHealth } from "@adapters/http/system/health";
 import { httpHeadersLogger } from "@adapters/http/middlewares/http-headers-logger.middleware";
@@ -13,9 +12,9 @@ import { Config } from "./infrastructure/config/config";
 import { AppEnv, schema } from "@infrastructure/config/env.schema";
 import { registerHttpModules } from "@adapters/http/register-http-modules";
 import { initInfrastructure } from "@infrastructure/init";
-import cors from "cors";
 import { notFoundMiddleware } from "@adapters/http/middlewares/not-founf.middleware";
-import { buildCorsOptionsFromConfig } from "@infrastructure/server/cors";
+import { mountSwagger } from "@adapters/http/openapi/mount-swagger";
+import { registerOpenApiModules } from "@adapters/http/openapi/register-openapi-modules";
 
 async function bootstrap() {
   Config.register({ schema });
@@ -25,15 +24,21 @@ async function bootstrap() {
 
   const app = createApp();
 
-  app.use(cors(buildCorsOptionsFromConfig()));
   app.use(httpHeadersLogger);
 
   registerHttpModules();
   registerControllers(app, { globalPrefix: "api" });
+  registerOpenApiModules();
 
   mountReadiness(app);
   mountHealth(app);
-  mountSwagger(app);
+  mountSwagger(app, {
+    title: "API Docs",
+    version: "1.0.0",
+    serverUrl: "http://localhost:3000",
+    jsonPath: "/swagger/openapi.json",
+    docsPath: "/swagger",
+  });
 
   app.use(notFoundMiddleware);
   app.use(globalExceptionFilter);
