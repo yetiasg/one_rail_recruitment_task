@@ -15,7 +15,7 @@ import { FindUserByIdUseCase } from "@modules/user/application/use-cases/find-us
 import { DeleteUserUseCase } from "@modules/user/application/use-cases/delete-user.use-case";
 import { UpdateUserRequestDto } from "./dto/update-user.request.dto";
 import { SortDirection } from "@shared/pagination/pagination.type";
-import { CachePort } from "src/core/cache/cache.port";
+// import { CachePort } from "src/core/cache/cache.port";
 
 @Controller("users")
 export class UserController {
@@ -25,7 +25,7 @@ export class UserController {
     private readonly updateUserUseCase: UpdateUserUseCase,
     private readonly findUserByIdUseCase: FindUserByIdUseCase,
     private readonly deleteUserUseCase: DeleteUserUseCase,
-    private readonly cache: CachePort,
+    // private readonly cache: CachePort,
   ) {}
 
   @Get()
@@ -35,7 +35,7 @@ export class UserController {
     @Query("sortDir") sortDir: SortDirection | undefined,
     @Res() res: Response,
   ): Promise<void> {
-    await this.cache.set("elsssooo", 124, 10 * 60);
+    // await this.cache.set("elsssooo", 124, 10 * 60);
 
     const page = pageRaw ? Number(pageRaw) : undefined;
     const pageSize = pageSizeRaw ? Number(pageSizeRaw) : undefined;

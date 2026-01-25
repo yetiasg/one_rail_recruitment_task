@@ -3,6 +3,7 @@ import { User } from "@modules/user/domain/entities/user.entity";
 import { UserRepositoryPort } from "@modules/user/domain/ports/user-repository.port";
 import { OrganizationRepositoryPort } from "@modules/organization/domain/ports/organization-repository.port";
 import { NotFoundError } from "@shared/errors/not-found.error";
+import { ConflictError } from "@shared/errors/conflict.error";
 
 export interface CreateUserInput {
   firstName: string;
@@ -29,8 +30,7 @@ export class CreateUserUseCase {
       throw new NotFoundError(`Organization ${organizationId} does not exist`);
 
     const emailOccupied = await this.userRepo.existByEmail(email);
-    if (emailOccupied)
-      throw new NotFoundError(`Email ${email} is already occupied`);
+    if (emailOccupied) throw new ConflictError("Email already used");
 
     const user = new User(
       crypto.randomUUID(),
