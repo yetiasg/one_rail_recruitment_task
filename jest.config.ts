@@ -1,6 +1,7 @@
 import type { Config } from "jest";
 
 const config: Config = {
+  preset: "ts-jest",
   testEnvironment: "node",
   roots: ["<rootDir>/test"],
   testMatch: ["**/*.spec.ts"],
@@ -16,6 +17,7 @@ const config: Config = {
     "^@infrastructure/(.*)$": "<rootDir>/src/infrastructure/$1",
     "^@adapters/(.*)$": "<rootDir>/src/adapters/$1",
     "^@test/(.*)$": "<rootDir>/test/$1",
+    "^@config/(.*)$": "<rootDir>/src/core/config/$1",
   },
 };
 
