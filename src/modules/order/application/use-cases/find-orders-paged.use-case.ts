@@ -24,7 +24,7 @@ export class FindOrdersPagedUseCase {
 
     if (sortBy !== "orderDate")
       throw new BadRequestError(`Unsupported sortBy: ${String(sortBy)}`, {
-        allowed: ["email"],
+        allowed: ["orderDate"],
       });
 
     if (sortDir !== "asc" && sortDir !== "desc")

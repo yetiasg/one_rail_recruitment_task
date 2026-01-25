@@ -5,7 +5,7 @@ export class UserBuilder {
   private firstName = "John";
   private lastName = "Doe";
   private email = "john@example.com";
-  private organizationId = "org-1";
+  private organizationId = crypto.randomUUID() as string;
   private dateCreated = new Date("2020-01-01T00:00:00.000Z");
 
   withId(id: string): this {

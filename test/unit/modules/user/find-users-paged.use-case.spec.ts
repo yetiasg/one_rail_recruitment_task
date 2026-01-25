@@ -1,14 +1,12 @@
-import {
-  BadRequestException,
-  HttpException,
-} from "@kernel/http/http-exceptions";
 import { FindUsersPagedUseCase } from "@modules/user/application/use-cases/find-users-paged.use-case";
-import { UserBuilder } from "@test/unit/support/builders/user.builder";
-import { FakeUserRepository } from "@test/unit/support/fakes/user/fake-user-repository";
+import { AppError } from "@shared/errors/app-error";
+import { BadRequestError } from "@shared/errors/bad-request.error";
+import { UserBuilder } from "@test/unit/builders/user.builder";
+import { UserRepositoryMock } from "@test/unit/mocks/user-repository.mock";
 
 describe("FindUsersPagedUseCase", () => {
   it("returns first page sorted by email asc", async () => {
-    const repo = new FakeUserRepository();
+    const repo = new UserRepositoryMock();
     repo.seed([
       new UserBuilder().withId("1").withEmail("z@z.com").build(),
       new UserBuilder().withId("2").withEmail("a@a.com").build(),
@@ -30,7 +28,7 @@ describe("FindUsersPagedUseCase", () => {
   });
 
   it("supports sort desc", async () => {
-    const repo = new FakeUserRepository();
+    const repo = new UserRepositoryMock();
     repo.seed([
       new UserBuilder().withId("1").withEmail("b@b.com").build(),
       new UserBuilder().withId("2").withEmail("a@a.com").build(),
@@ -49,7 +47,7 @@ describe("FindUsersPagedUseCase", () => {
   });
 
   it("throws BadRequestException for sort field other than 'email'", async () => {
-    const repo = new FakeUserRepository();
+    const repo = new UserRepositoryMock();
     repo.seed([
       new UserBuilder().withId("1").withEmail("b@b.com").build(),
       new UserBuilder().withId("2").withEmail("a@a.com").build(),
@@ -65,16 +63,13 @@ describe("FindUsersPagedUseCase", () => {
         direction: "desc",
       });
     } catch (e: unknown) {
-      expect(e instanceof HttpException).toBe(true);
-      expect((e as HttpException).name).toEqual(new BadRequestException().name);
-      expect((e as HttpException).statusCode).toEqual(
-        new BadRequestException().statusCode,
-      );
+      expect(e instanceof AppError).toBe(true);
+      expect((e as AppError).name).toEqual(new BadRequestError().name);
     }
   });
 
   it("returns empty array", async () => {
-    const repo = new FakeUserRepository();
+    const repo = new UserRepositoryMock();
     repo.seed([]);
 
     const useCase = new FindUsersPagedUseCase(repo);
