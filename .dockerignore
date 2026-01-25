@@ -6,3 +6,5 @@ Dockerfile
 .env
 .env.example
 requirements.md
+coverage
+.volumes

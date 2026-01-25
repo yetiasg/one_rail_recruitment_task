@@ -1,36 +1,9 @@
 services:
-  api:
-    image: yetiasg/one-rail-recruitment-task-api:latest
-    restart: always
-    ports:
-      - "3000:3000"
-    environment:
-      NODE_ENV: production
-      PORT: 3000
-
-      # Database
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_NAME: one_rail
-      DB_USER: app
-      DB_PASSWORD: app
-
-      # Redis
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      REDIS_USERNAME: default
-      REDIS_PASSWORD: ne4ezh6sgjnf798dk7cfayjs
-    depends_on:
-      db:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-
   db:
     image: mysql:8.1
-    restart: always
     ports:
-      - "3306:3306"
+      - 3306:3306
+    restart: always
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
