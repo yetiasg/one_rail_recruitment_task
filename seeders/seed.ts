@@ -1,18 +1,18 @@
 import { faker } from "@faker-js/faker";
-import { OrderModel } from "@modules/order/infrastructure/sequelize/models/order.model";
-import { OrganizationModel } from "@modules/organization/infrastructure/sequelize/models/organization.model";
-import { UserModel } from "@modules/user/infrastructure/persistence/sequelize/models/user.model";
-import { Config } from "@config/config";
+import { Config } from "@infrastructure/config/config";
 import { schema } from "@infrastructure/config/env.schema";
 import { sequelize } from "@infrastructure/db/sequelize.instance";
-import { initModels } from "@infrastructure/db/sequelize.models-init";
+import { UserModel } from "@modules/user/adapters/persistence/sequelize/models/user.model";
+import { OrganizationModel } from "@modules/organization/adapters/sequelize/models/organization.model";
+import { OrderModel } from "@modules/order/adapters/sequelize/models/order.model";
+import { registerSequelizeModels } from "@infrastructure/db/sequelize.register-modules";
 
 async function seed() {
   // Load env's
   Config.register({ schema });
 
-  // Initialize models
-  initModels(sequelize, OrderModel, UserModel, OrganizationModel);
+  // Register sequelize models
+  registerSequelizeModels(sequelize);
 
   const transaction = await sequelize.transaction();
   try {

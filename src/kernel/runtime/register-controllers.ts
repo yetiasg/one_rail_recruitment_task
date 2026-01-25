@@ -90,6 +90,12 @@ function buildArgs(
   return args;
 }
 
+/**
+ *
+ * @param app Express
+ * @param globalPrefix  - applies only to controllers decorated with `@Controller`
+ */
+
 export function registerControllers(
   app: Express,
   options?: { globalPrefix?: string },

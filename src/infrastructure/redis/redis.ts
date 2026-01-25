@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import { Config } from "@config/config";
+import { Config } from "@infrastructure/config/config";
 import { AppEnv } from "@infrastructure/config/env.schema";
 import KeyvRedis from "@keyv/redis";
 import { Keyv } from "keyv";

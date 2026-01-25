@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 import { logger } from "@infrastructure/logging/logger";
 import { AppEnv } from "@infrastructure/config/env.schema";
-import { Config } from "@config/config";
+import { Config } from "@infrastructure/config/config";
 
 let instance: Sequelize | null = null;
 

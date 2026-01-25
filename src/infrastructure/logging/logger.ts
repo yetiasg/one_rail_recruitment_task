@@ -1,7 +1,7 @@
 import winston from "winston";
 import { utilities as nestWinstonModuleUtilities } from "nest-winston";
 import { AppEnv } from "@infrastructure/config/env.schema";
-import { Config } from "@config/config";
+import { Config } from "@infrastructure/config/config";
 
 export type Logger = winston.Logger;
 
