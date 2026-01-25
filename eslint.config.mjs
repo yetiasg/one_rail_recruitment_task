@@ -13,6 +13,8 @@ export default defineConfig(
       "commitlint.config.mjs",
       "migrations",
       "models",
+      "coverage/**",
+      "config/config.js",
     ],
   },
   {

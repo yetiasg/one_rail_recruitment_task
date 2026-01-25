@@ -18,8 +18,11 @@ services:
       # Redis
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      REDIS_USERNAME: default
+      REDIS_USER: default
       REDIS_PASSWORD: ne4ezh6sgjnf798dk7cfayjs
+
+      CORS_ORIGINS: "*"
+      LOG_LEVEL: info
     depends_on:
       db:
         condition: service_healthy

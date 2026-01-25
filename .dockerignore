@@ -8,3 +8,5 @@ Dockerfile
 requirements.md
 coverage
 .volumes
+test
+jest.config.ts
