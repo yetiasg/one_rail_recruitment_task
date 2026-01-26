@@ -116,7 +116,7 @@ pnpm test:coverage
 - **ORM**: **Sequelize** with MySQL for mature migrations, transactions, and schema control.
 - **Error Handling**: Centralized HTTP error middleware with consistent error responses.
 - **Validation**: Request validation at the transport layer (DTOs / schemas).
-- **Caching**: **Redis** used to cache frequently accessed data and reduce database load.
+- **Caching**: **lru-cahce** used to cache frequently accessed data and reduce database load.
 - **Swagger / OpenAPI**: Swagger serves as the single source of truth for the API contract.
 - **Testing**: Unit tests focus on domain and application layers with infrastructure mocked.
 
