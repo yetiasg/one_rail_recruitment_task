@@ -103,8 +103,6 @@ export function lruGetResponseCacheAll() {
     const key = buildCacheKey(req);
     const hit = cache.get(key);
 
-    console.log({ key, hit });
-
     if (hit) {
       for (const [h, v] of Object.entries(hit.headers)) res.setHeader(h, v);
       return res.status(hit.status).json(hit.body);
