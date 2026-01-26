@@ -50,6 +50,9 @@ importers:
       keyv:
         specifier: ^5.6.0
         version: 5.6.0
+      lru-cache:
+        specifier: ^11.2.4
+        version: 11.2.4
       mysql2:
         specifier: ^3.16.1
         version: 3.16.1
@@ -90,6 +93,9 @@ importers:
       '@types/jest':
         specifier: ^30.0.0
         version: 30.0.0
+      '@types/lru-cache':
+        specifier: ^7.10.10
+        version: 7.10.10
       '@types/node':
         specifier: ^25.0.9
         version: 25.0.9
@@ -765,6 +771,10 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
+
+  '@types/lru-cache@7.10.10':
+    resolution: {integrity: sha512-nEpVRPWW9EBmx2SCfNn3ClYxPL7IktPX12HhIoSc/H5mMjdeW3+YsXIpseLQ2xF35+OcpwKQbEUw5VtqE4PDNA==}
+    deprecated: This is a stub types definition. lru-cache provides its own type definitions, so you do not need this installed.
 
   '@types/ms@2.1.0':
     resolution: {integrity: sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==}
@@ -2174,6 +2184,10 @@ packages:
 
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
+
+  lru-cache@11.2.4:
+    resolution: {integrity: sha512-B5Y16Jr9LB9dHVkh6ZevG+vAbOsNOYCX+sXvFWFu7B3Iz5mijW3zdbMyhsh8ANd2mSWBYdJgnqi+mL7/LrOPYg==}
+    engines: {node: 20 || >=22}
 
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
@@ -3912,6 +3926,10 @@ snapshots:
 
   '@types/json-schema@7.0.15': {}
 
+  '@types/lru-cache@7.10.10':
+    dependencies:
+      lru-cache: 11.2.4
+
   '@types/ms@2.1.0': {}
 
   '@types/node@25.0.9':
@@ -5513,6 +5531,8 @@ snapshots:
   long@5.3.2: {}
 
   lru-cache@10.4.3: {}
+
+  lru-cache@11.2.4: {}
 
   lru-cache@5.1.1:
     dependencies:

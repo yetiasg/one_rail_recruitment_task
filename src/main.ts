@@ -15,6 +15,11 @@ import { initInfrastructure } from "@infrastructure/init";
 import { notFoundMiddleware } from "@adapters/http/middlewares/not-founf.middleware";
 import { mountSwagger } from "@adapters/http/openapi/mount-swagger";
 import { registerOpenApiModules } from "@adapters/http/openapi/register-openapi-modules";
+import { lruInvalidateOnMutationsUniversal } from "@adapters/http/middlewares/lru-cache-invalidate.middleware";
+import { lruGetResponseCacheAll } from "@adapters/http/middlewares/lru-response-cache.middleware";
+import { cacheControlGetOnly } from "@adapters/http/middlewares/cache-control.middleware";
+
+const TEN_MINUTES_SECONDS = 600;
 
 async function bootstrap() {
   Config.register({ schema });
@@ -25,6 +30,12 @@ async function bootstrap() {
   const app = createApp();
 
   app.use(httpHeadersLogger);
+
+  // Caching
+  app.use(cacheControlGetOnly("/api/users", TEN_MINUTES_SECONDS));
+  app.use(cacheControlGetOnly("/api/organizations", TEN_MINUTES_SECONDS));
+  app.use(lruInvalidateOnMutationsUniversal());
+  app.use(lruGetResponseCacheAll());
 
   registerHttpModules();
   registerControllers(app, { globalPrefix: "api" });
